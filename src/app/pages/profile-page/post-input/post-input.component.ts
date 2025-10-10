@@ -1,14 +1,13 @@
 import {Component, EventEmitter, HostBinding, inject, input, Output, Renderer2} from '@angular/core';
 import {AvatarCircleComponent} from '../../../common-ui/avatar-circle/avatar-circle.component';
-import {NgIf} from '@angular/common';
 import {SvgIconComponent} from '../../../common-ui/svg-icon/svg-icon.component';
 import {FormsModule} from '@angular/forms';
+import {ProfileService} from '../../../data/services/profile.service';
 
 @Component({
   selector: 'app-post-input',
   imports: [
     AvatarCircleComponent,
-    NgIf,
     SvgIconComponent,
     FormsModule
   ],
@@ -23,6 +22,7 @@ export class PostInputComponent {
 
   isCommentInput = input(false)
   postId = input<number>(0)
+  profile = inject(ProfileService).me
 
   @Output() created = new EventEmitter();
 

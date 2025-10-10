@@ -43,23 +43,13 @@ export class PostFeedComponent {
     const height = window.innerHeight - top - 24 - 24
     this.r2.setStyle(this.hostElement.nativeElement, 'height', `${height}px`);
 
-    console.log(height);
   }
 
 
   onCreatePost(postText:string) {
     if (!postText) return
 
-    if(this.isCommentInput()) {
-      firstValueFrom(this.postService.createComment({
-        text: postText,
-        authorId: this.profile()!.id,
-        postId: this.postId()
-      })).then(() => {
-        this.created.emit()
-      })
-      return;
-    }
+
 
     firstValueFrom(this.postService.createPost({
       title: 'Клевый пост',
@@ -67,7 +57,7 @@ export class PostFeedComponent {
       authorId: this.profile()!.id
 
     })).then(() => {
-      this.postText = ''
+      postText = ''
     })
   }
 

@@ -2,6 +2,7 @@ import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {CommentCreateDto, Post, PostComment, PostCreateDto} from '../interfaces/post.interface';
 import {map, switchMap, tap} from 'rxjs';
+import {API_URL} from '../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import {map, switchMap, tap} from 'rxjs';
 export class PostService {
 
   #http = inject(HttpClient)
-  baseApiUrl = 'https://icherniakov.ru/yt-course/'
+  baseApiUrl = API_URL;
   posts = signal<Post[]>([])
 
   createPost(payload: PostCreateDto) {
@@ -38,6 +39,10 @@ export class PostService {
       .pipe(
         map(res => res.comments),
       )
+  }
+
+  likePost(postId: number) {
+    return this.#http.post<Post>(`${this.baseApiUrl}post/like/${postId}`, {})
   }
 
 }

@@ -3,13 +3,14 @@ import {HttpClient} from '@angular/common/http';
 import {Profile} from '../interfaces/profile.interface';
 import {Pageable} from '../interfaces/pageble.interface';
 import {map, tap} from 'rxjs';
+import {API_URL} from '../constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProfileService {
   http = inject(HttpClient)
-  baseApiUrl = 'https://icherniakov.ru/yt-course/'
+  baseApiUrl = API_URL
   me = signal<Profile | null>(null)
   filteredProfiles = signal<Profile[]>([])
 
