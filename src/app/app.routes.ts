@@ -6,6 +6,7 @@ import {LayoutComponent} from './common-ui/layout/layout.component';
 import {canActivateAuth} from './auth/auth.guard';
 import {SettingsPageComponent} from './pages/settings-page/settings-page.component';
 import {chatsRoutes} from './pages/chats/chatsRoutes';
+import {SubscribersPageComponent} from './pages/subscribers-page/subscribers-page.component';
 
 export const routes: Routes = [
   {
@@ -13,6 +14,8 @@ export const routes: Routes = [
       {path: '',redirectTo: 'profile/me', pathMatch: 'full'},
       {path: 'profile/:id', component: ProfilePageComponent},
       {path: 'settings', component: SettingsPageComponent},
+      {path: 'subscribers', component: SubscribersPageComponent},
+
       {path: 'search', component: SearchPageComponent},
       {
         path: 'chats',

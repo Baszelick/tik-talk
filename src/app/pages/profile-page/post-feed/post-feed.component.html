@@ -1,8 +1,9 @@
 <app-post-input (created)="onCreatePost($event)" ></app-post-input>
 
+<div class="posts-wrapper">
 @for (post of feed(); track post.id) {
   <app-post
     [post]="post"
   ></app-post>
-
 }
+</div>
