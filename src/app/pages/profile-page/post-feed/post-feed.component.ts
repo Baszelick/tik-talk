@@ -2,8 +2,9 @@ import {Component, ElementRef, HostListener, inject, Renderer2} from '@angular/c
 import {PostInputComponent} from '../post-input/post-input.component';
 import {PostComponent} from '../post/post.component';
 import {PostService} from '../../../data/services/post.service';
-import {firstValueFrom, fromEvent} from 'rxjs';
+import {firstValueFrom} from 'rxjs';
 import {Debounce} from '../../../helpers/decorators/debounce.decorator';
+import {ProfileService} from '../../../data/services/profile.service';
 
 @Component({
   selector: 'app-post-feed',
@@ -15,6 +16,8 @@ import {Debounce} from '../../../helpers/decorators/debounce.decorator';
   styleUrl: './post-feed.component.scss'
 })
 export class PostFeedComponent {
+
+  profile = inject(ProfileService).me
   postService = inject(PostService);
   hostElement = inject(ElementRef);
   r2 = inject(Renderer2)
@@ -41,6 +44,31 @@ export class PostFeedComponent {
     this.r2.setStyle(this.hostElement.nativeElement, 'height', `${height}px`);
 
     console.log(height);
+  }
+
+
+  onCreatePost(postText:string) {
+    if (!postText) return
+
+    if(this.isCommentInput()) {
+      firstValueFrom(this.postService.createComment({
+        text: postText,
+        authorId: this.profile()!.id,
+        postId: this.postId()
+      })).then(() => {
+        this.created.emit()
+      })
+      return;
+    }
+
+    firstValueFrom(this.postService.createPost({
+      title: 'Клевый пост',
+      content: postText,
+      authorId: this.profile()!.id
+
+    })).then(() => {
+      this.postText = ''
+    })
   }
 
 }

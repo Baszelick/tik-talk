@@ -1,4 +1,4 @@
-<app-post-input></app-post-input>
+<app-post-input (created)="onCreatePost($event)" )></app-post-input>
 
 @for (post of feed(); track post.id) {
   <app-post
