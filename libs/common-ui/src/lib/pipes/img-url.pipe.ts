@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { API_URL } from '@tt/chats';
+import { API_URL } from '@tt/shared';
 
 @Pipe({
   name: 'imgUrl',

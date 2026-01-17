@@ -6,11 +6,14 @@ import {
   Renderer2,
 } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import {ProfileService} from '@tt/profile';
+import {GlobalStoreService} from '@tt/shared';
 import {PostService} from '../../data';
 import {Debounce} from '../../decorators/debounce.decorator';
 import {PostInputComponent} from '../../ui';
 import { PostComponent } from '../post/post.component';
+import {Store} from '@ngrx/store';
+import {postActions} from '../../data/store/actions';
+import {selectAllPosts} from '../../data/store/selectors';
 
 
 
@@ -21,11 +24,12 @@ import { PostComponent } from '../post/post.component';
   styleUrl: './post-feed.component.scss',
 })
 export class PostFeedComponent {
-  profile = inject(ProfileService).me;
+  store = inject(Store);
+  profile = inject(GlobalStoreService).me;
   postService = inject(PostService);
   hostElement = inject(ElementRef);
   r2 = inject(Renderer2);
-  feed = this.postService.posts;
+  feed = this.store.selectSignal(selectAllPosts);
 
   @HostListener('window:resize')
   @Debounce(300)
@@ -33,8 +37,11 @@ export class PostFeedComponent {
     this.resizeFeed();
   }
 
-  constructor() {
-    firstValueFrom(this.postService.fetchPosts());
+
+  ngOnInit() {
+    this.store.dispatch(postActions.featurePosts({}));
+
+    setTimeout(() => console.log('Текущие посты в ленте:', this.feed()), 1000)
   }
 
   ngAfterViewInit() {
@@ -58,6 +65,7 @@ export class PostFeedComponent {
       })
     ).then(() => {
       postText = '';
+      this.store.dispatch(postActions.featurePosts({}));
     });
   }
 }

@@ -4,5 +4,6 @@ import { PostComponent } from "./post/post.component";
 export {
   PostComponent,
   PostFeedComponent,
-
 }
+
+export * from '../data/store'

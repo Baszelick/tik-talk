@@ -3,7 +3,7 @@ import { firstValueFrom } from 'rxjs';
 import {AvatarCircleComponent, SvgIconComponent, TimeAgoPipe} from '@tt/common-ui';
 import {CommentComponent, PostInputComponent} from '../../ui';
 import {Post, PostComment, PostService} from '../../data';
-import {ProfileService} from '@tt/profile';
+import {GlobalStoreService} from '@tt/shared';
 
 
 
@@ -23,7 +23,7 @@ import {ProfileService} from '@tt/profile';
 export class PostComponent implements OnInit {
   post = input<Post>();
   comments = signal<PostComment[]>([]);
-  profile = inject(ProfileService).me;
+  profile = inject(GlobalStoreService).me;
 
   postService = inject(PostService);
 

@@ -19,7 +19,7 @@
   </div>
 
   <div class="post__comments-wrapper">
-    @for (comment of post.comments; track comment.id) {
+    @for (comment of comments(); track comment.id) {
     <app-comment [comment]="comment"></app-comment>
     }
   </div>

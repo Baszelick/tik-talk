@@ -7,7 +7,7 @@ import {
   PostCreateDto,
 } from '../interfaces/post.interface';
 import { map, switchMap, tap } from 'rxjs';
-import { API_URL } from '../../../../../chats/src/lib/data/constants';
+import { API_URL } from '@tt/shared';
 
 @Injectable({
   providedIn: 'root',
