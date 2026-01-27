@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_URL, GlobalStoreService } from '@tt/shared';
 import { Chat, LastMessageRes, Messages } from '../interfaces/chats.interface';
@@ -8,6 +8,7 @@ import {AuthService} from '@tt/auth';
 import {ChatWsMessage} from '../interfaces/chat-ws-message.interface';
 import {isNewMessage, isUnreadMessage} from '../interfaces/type-guard';
 import {ChatWsRxjsService} from '../interfaces/chat-ws-rxjs.service';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -16,15 +17,52 @@ export class ChatsService {
   http = inject(HttpClient);
   me = inject(GlobalStoreService).me;
   #authService = inject(AuthService);
+  datePipe = inject(DatePipe);
 
   wsAdapter: ChatWsService = new ChatWsRxjsService()
 
   baseApiUrl = API_URL;
   chatsUrl = `${this.baseApiUrl}chat/`;
   messageUrl = `${this.baseApiUrl}message/`;
+
   activeChatMessages = signal<Messages[]>([]);
   totalUnreadMessage = signal<number>(0)
   unreadMessageById = signal<LastMessageRes[]>([])
+
+  groupedMessages = computed(() => {
+    const messages = this.activeChatMessages();
+    if (!messages.length) return [];
+
+    const now = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(now.getDate() - 1);
+
+    const todayStr = this.datePipe.transform(now, 'dd.MM.yyyy');
+    const yesterdayStr = this.datePipe.transform(yesterday, 'dd.MM.yyyy');
+
+    return messages.reduce((acc, message) => {
+      const msgDateStr = this.datePipe.transform(message.createdAt, 'dd.MM.yyyy');
+
+      // Определяем текст разделителя
+      let dateLabel = msgDateStr || 'Неизвестно';
+      if (msgDateStr === todayStr) dateLabel = 'Сегодня';
+      else if (msgDateStr === yesterdayStr) dateLabel = 'Вчера';
+      else {
+        dateLabel = this.datePipe.transform(message.createdAt, 'd MMMM') || dateLabel;
+      }
+
+      // Ищем существующую группу
+      const group = acc.find(g => g.date === dateLabel);
+
+      if (group) {
+        group.messages.push(message);
+      } else {
+        acc.push({ date: dateLabel, messages: [message] });
+      }
+
+      return acc;
+    }, [] as { date: string, messages: any[] }[]);
+  });
 
   connectWs() {
     return this.wsAdapter.connect({

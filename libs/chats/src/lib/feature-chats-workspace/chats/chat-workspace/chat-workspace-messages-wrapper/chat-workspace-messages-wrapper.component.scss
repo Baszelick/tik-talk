@@ -16,5 +16,19 @@
   overflow-y: scroll;
 }
 
-.message-input-wrapper {
+.date-divider__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+}
+
+.date-divider {
+  width: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--dark-hover-color);
+  border-radius: 10px;
+  padding: 8px 16px;
 }

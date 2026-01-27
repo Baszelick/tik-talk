@@ -1,9 +1,9 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { ChatWorkspaceMessageComponent } from './chat-workspace-message/chat-workspace-message.component';
 
 import { firstValueFrom } from 'rxjs';
-import { MessageInputComponent } from 'libs/chats/src/lib/ui';
-import {Chat, ChatsService } from 'libs/chats/src/lib/data';
+import { MessageInputComponent } from '../../../../ui';
+import { Chat, ChatsService } from '../../../../data';
 
 
 @Component({
@@ -16,8 +16,9 @@ export class ChatWorkspaceMessagesWrapperComponent {
   chatService = inject(ChatsService);
 
   chat = input.required<Chat>();
-
   messages = this.chatService.activeChatMessages;
+
+  groups = this.chatService.groupedMessages
 
   async onSendMessage(messageText: string) {
     this.chatService.wsAdapter.sendMessage(
