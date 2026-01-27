@@ -10,6 +10,9 @@
       >
         <svg class="my-icon" [icon]="menuItem.icon"></svg>
         <span>{{ menuItem.label }}</span>
+        @if (menuItem.link === 'chats' && chatService.totalUnreadMessage() > 0){
+          <span>{{chatService.totalUnreadMessage()}}</span>
+        }
       </a>
     </li>
   </ul>

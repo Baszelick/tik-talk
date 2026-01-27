@@ -2,7 +2,7 @@
 <app-avatar-circle class="size32" [avatarUrl]="post.author.avatarUrl">
 </app-avatar-circle>
 
-<main class="post-body">
+<main class="post-body custom-scrollbar">
   <div class="post-header">
     <strong class="post__author">
       {{ post.author.firstName }} {{ post.author.lastName }}
@@ -18,7 +18,7 @@
     </span>
   </div>
 
-  <div class="post__comments-wrapper">
+  <div class="post__comments-wrapper custom-scrollbar">
     @for (comment of comments(); track comment.id) {
     <app-comment [comment]="comment"></app-comment>
     }

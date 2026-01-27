@@ -29,3 +29,14 @@
   justify-content: space-between;
   color: var(--light-transparent-color);
 }
+
+.unread-badge {
+  //TODO костыль
+  padding-top: 3px;
+  text-align: center;
+  background: var(--primary-color);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  color: var(--light-color);
+}

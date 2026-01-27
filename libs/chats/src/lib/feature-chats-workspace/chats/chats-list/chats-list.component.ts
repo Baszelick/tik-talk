@@ -1,40 +1,66 @@
-import { Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { ChatsBtnComponent } from '../chats-btn/chats-btn.component';
 import { ChatsService } from '../../../../../../../libs/chats/src/lib/data/services/chats.service';
-import { AsyncPipe } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { map, startWith, switchMap } from 'rxjs';
+import { startWith } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-chats-list',
   imports: [
     ChatsBtnComponent,
-    AsyncPipe,
     RouterLink,
     RouterLinkActive,
     ReactiveFormsModule,
   ],
   templateUrl: './chats-list.component.html',
   styleUrl: './chats-list.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChatsListComponent {
+export class ChatsListComponent implements OnInit {
   filterChatsControl = new FormControl('');
 
   chatsService = inject(ChatsService);
 
-  chats$ = this.chatsService.getMyChats().pipe(
-    switchMap((chats) => {
-      return this.filterChatsControl.valueChanges.pipe(
-        startWith(''),
-        map((inputValue) => {
-          return chats.filter((chat) => {
-            return `${chat.userFrom.firstName} ${chat.userFrom.lastName}`
-              .toLowerCase()
-              .includes((inputValue || '').toLowerCase());
-          });
-        })
-      );
-    })
+  filterValue = toSignal(
+    this.filterChatsControl.valueChanges.pipe(startWith('')),
+    { initialValue: '' }
   );
+
+  filteredChats = computed(() => {
+    const allChats = this.chatsService.unreadMessageById();
+    const query = this.filterValue()?.toLowerCase() ?? '';
+
+    return allChats.filter((c) =>
+      `${c.userFrom.firstName} ${c.userFrom.lastName}`
+        .toLowerCase()
+        .includes(query)
+    );
+  });
+
+  ngOnInit() {
+    this.chatsService.getMyChats().subscribe();
+  }
+
+  // chats$ = this.chatsService.getMyChats().pipe(
+  //   switchMap((chats) => {
+  //     return this.filterChatsControl.valueChanges.pipe(
+  //       startWith(''),
+  //       map((inputValue) => {
+  //         return chats.filter((chat) => {
+  //           return `${chat.userFrom.firstName} ${chat.userFrom.lastName}`
+  //             .toLowerCase()
+  //             .includes((inputValue || '').toLowerCase());
+  //         });
+  //       })
+  //     );
+  //   })
+  // );
 }

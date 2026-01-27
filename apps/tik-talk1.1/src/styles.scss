@@ -166,3 +166,41 @@ h1 {
   height: 84px;
   resize: none;
 }
+
+
+
+
+.custom-scrollbar {
+  // Настройки для Firefox
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.3s ease;
+
+  &:hover {
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent; // Цвет ползунка при наведении
+  }
+
+  // Настройки для Chrome, Safari, Edge
+  &::-webkit-scrollbar {
+    width: 6px; // Ширина скролла
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent; // Фон дорожки
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color); // Ползунок изначально прозрачный
+    border-radius: 20px;
+    border: 1px solid transparent; // Отступ, если нужно
+    transition: background-color 0.3s ease;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(var(--primary-color-rgb), 0.3); // Проявляем при наведении
+
+    &:hover {
+      background-color: rgba(var(--primary-color-rgb), 0.5); // Затемняем при захвате
+    }
+  }
+}

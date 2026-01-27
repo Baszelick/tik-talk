@@ -8,6 +8,11 @@
   <div class="chat-user medium-text">
     <span>{{ chat.userFrom.firstName }} {{ chat.userFrom.lastName }}</span>
     <span>{{ chat.createdAt | date : 'dd.MM.YYYY' }}</span>
+    @if (chat.unRead && chat.unRead > 0) {
+      <span class="unread-badge">
+        {{ chat.unRead }}
+      </span>
+    }
   </div>
   <div class="medium-text">{{ chat.message ?? '...' }}</div>
 </div>

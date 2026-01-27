@@ -5,6 +5,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import {ImgUrlPipe, SvgIconComponent} from '@tt/common-ui';
 import {ProfileService} from '@tt/profile';
+import { ChatsService } from '@tt/chats';
 
 
 
@@ -24,6 +25,8 @@ import {ProfileService} from '@tt/profile';
 })
 export class SidebarComponent {
   profileService = inject(ProfileService);
+  chatService = inject(ChatsService)
+
   subscribers$ = this.profileService.getSubscribersShortList();
   me = this.profileService.me;
 

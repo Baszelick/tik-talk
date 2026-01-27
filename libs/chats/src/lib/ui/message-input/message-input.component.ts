@@ -1,13 +1,14 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   inject,
   Output,
   Renderer2,
 } from '@angular/core';
-import { AvatarCircleComponent } from '../../../../../common-ui/src/lib/components/avatar-circle/avatar-circle.component';
+import { AvatarCircleComponent } from '@tt/common-ui';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SvgIconComponent } from '../../../../../common-ui/src/lib/components/svg-icon/svg-icon.component';
+import { SvgIconComponent } from '@tt/common-ui';
 import { GlobalStoreService } from '@tt/shared';
 
 @Component({
@@ -20,6 +21,7 @@ import { GlobalStoreService } from '@tt/shared';
   ],
   templateUrl: './message-input.component.html',
   styleUrl: './message-input.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MessageInputComponent {
   r2 = inject(Renderer2);

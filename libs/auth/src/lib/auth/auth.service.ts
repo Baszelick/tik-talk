@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TokenResponse } from './auth.interface';
-import { catchError, tap, throwError } from 'rxjs';
+import { catchError, Observable, Subject, tap, throwError } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 
@@ -10,11 +10,16 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   http = inject(HttpClient);
+  router = inject(Router);
+  cookieService = inject(CookieService);
+
   baseApiUrl = 'https://icherniakov.ru/yt-course/auth/';
+
   token: string | null = null;
   refreshToken: string | null = null;
-  cookieService = inject(CookieService);
-  router = inject(Router);
+
+  tokenChangedSubject = new Subject<string>();
+  tokenChanged$ = this.tokenChangedSubject.asObservable();
 
   get isAuth() {
     if (!this.token) {
@@ -58,7 +63,10 @@ export class AuthService {
   saveTokens(response: TokenResponse) {
     this.token = response.access_token;
     this.refreshToken = response.refresh_token;
+
     this.cookieService.set('token', this.token);
     this.cookieService.set('refreshToken', this.refreshToken);
+
+    this.tokenChangedSubject.next(this.token);
   }
 }
