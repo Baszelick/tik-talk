@@ -6,7 +6,7 @@
           <span>{{ group.date }}</span>
         </div>
       </div>
-    @for (message of messages(); track message.id) {
+    @for (message of group.messages; track message.id) {
       <app-chat-workspace-message [message]="message"></app-chat-workspace-message>
     }
     }

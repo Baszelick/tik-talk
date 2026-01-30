@@ -28,3 +28,8 @@ export interface LastMessageRes {
   createdAt: string;
   unRead: number | null;
 }
+
+export interface MessageGroup {
+  date: string;
+  messages: Messages[];
+}

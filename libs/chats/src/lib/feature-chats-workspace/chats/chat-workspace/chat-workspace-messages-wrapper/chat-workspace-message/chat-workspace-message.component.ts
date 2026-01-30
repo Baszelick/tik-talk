@@ -1,5 +1,5 @@
 import { Component, HostBinding, input } from '@angular/core';
-import { Messages } from '../../../../../../../../../libs/chats/src/lib/data/interfaces/chats.interface';
+import { Messages } from "../../../../../../../../../libs/chats/src/lib/data/interfaces/chats.interface";
 import { AvatarCircleComponent, TimeAgoPipe } from '@tt/common-ui';
 
 @Component({

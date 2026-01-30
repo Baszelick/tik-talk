@@ -7,7 +7,7 @@
 <div class="last-message__wrapper">
   <div class="chat-user medium-text">
     <span>{{ chat.userFrom.firstName }} {{ chat.userFrom.lastName }}</span>
-    <span>{{ chat.createdAt | date : 'dd.MM.YYYY' }}</span>
+    <span>{{ chat.createdAt | luxonDate }}</span>
     @if (chat.unRead && chat.unRead > 0) {
       <span class="unread-badge">
         {{ chat.unRead }}
