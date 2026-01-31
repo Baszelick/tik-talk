@@ -1,0 +1,42 @@
+:host {
+  width: 100%;
+  background: none;
+  border: none;
+  border-bottom: var(--light-border);
+  padding: 24px 20px;
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  grid-gap: 16px;
+  cursor: pointer;
+}
+
+:host:hover,
+:host:focus-visible,
+:host.active {
+  background: var(--dark-hover-color);
+}
+
+.last-message__wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: left;
+  color: var(--light-color);
+}
+
+.chat-user {
+  display: flex;
+  justify-content: space-between;
+  color: var(--light-transparent-color);
+}
+
+.unread-badge {
+  //TODO костыль
+  padding-top: 3px;
+  text-align: center;
+  background: var(--primary-color);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  color: var(--light-color);
+}

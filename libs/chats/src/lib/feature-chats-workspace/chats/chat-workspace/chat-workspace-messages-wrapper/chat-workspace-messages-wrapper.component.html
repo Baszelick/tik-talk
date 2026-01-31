@@ -1,0 +1,16 @@
+<div class="messages-wrapper custom-scrollbar">
+  <div class="messages-wrapper__wrapper">
+    @for (group of groups(); track group.date) {
+      <div class="date-divider__wrapper">
+        <div class="date-divider">
+          <span>{{ group.date }}</span>
+        </div>
+      </div>
+    @for (message of group.messages; track message.id) {
+      <app-chat-workspace-message [message]="message"></app-chat-workspace-message>
+    }
+    }
+  </div>
+</div>
+
+<app-message-input (created)="onSendMessage($event)"></app-message-input>

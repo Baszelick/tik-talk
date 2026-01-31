@@ -1,0 +1,48 @@
+<img src="/assets/svg/logo-small.svg" class="ml16 mb20" />
+
+<nav>
+  <ul class="main-menu-list">
+    <li *ngFor="let menuItem of menuItems">
+      <a
+        class="menu-item"
+        [routerLink]="[menuItem.link]"
+        routerLinkActive="active"
+      >
+        <svg class="my-icon" [icon]="menuItem.icon"></svg>
+        <span>{{ menuItem.label }}</span>
+        @if (menuItem.link === 'chats' && chatService.totalUnreadMessage() > 0){
+          <span>{{chatService.totalUnreadMessage()}}</span>
+        }
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<p class="medium-text mb20">Подписчики</p>
+
+@for (subscriber of subscribers$ | async; track subscriber.id) {
+<app-subscriber-card [profile]="subscriber"></app-subscriber-card>
+}
+
+<div class="mb20 to-subscribers">
+  <a [routerLink]="['/subscribers']" class="to-subscribers-link medium-text"
+    >Все подписчики</a
+  >
+  <svg icon="arrow" class="to-subscribers-icon"></svg>
+</div>
+
+<footer class="sidebar__footer">
+  @if (me(); as me) { @if (me.avatarUrl) {
+  <img [src]="me.avatarUrl | imgUrl" alt="" />
+  } @else {
+  <img src="/assets/imges/avatar-placeholder.svg" alt="" />
+  }
+
+  <div class="medium-text username-text">{{ me.username }}</div>
+
+  <a [routerLink]="['settings']" class="settings-btn">
+    <svg icon="settings"></svg>
+  </a>
+
+  }
+</footer>
