@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
   imports: [SvgIconComponent, DndDirective, FormsModule],
   templateUrl: './avatar-upload.component.html',
   styleUrl: './avatar-upload.component.scss',
+  standalone: true,
 })
 export class AvatarUploadComponent {
   preview = signal<string>('/assets/imges/avatar-placeholder.svg');

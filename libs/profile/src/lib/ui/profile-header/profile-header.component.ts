@@ -7,6 +7,7 @@ import { AvatarCircleComponent } from '../../../../../common-ui/src/lib/componen
   imports: [AvatarCircleComponent],
   templateUrl: './profile-header.component.html',
   styleUrl: './profile-header.component.scss',
+  standalone: true,
 })
 export class ProfileHeaderComponent {
   profile = input<Profile>();

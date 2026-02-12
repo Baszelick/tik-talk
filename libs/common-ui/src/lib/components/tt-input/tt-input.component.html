@@ -1,0 +1,14 @@
+<label class="tt-control-label mb16">
+  <ng-content></ng-content>
+
+  <div class="user-input">
+    <input
+      [ngModel]="value"
+      (ngModelChange)="onModelChange($event)"
+      class="tt-input"
+      [type]="type()"
+      [placeholder]="placeholder()"
+      (blur)="OnTouched()"
+    />
+  </div>
+</label>
