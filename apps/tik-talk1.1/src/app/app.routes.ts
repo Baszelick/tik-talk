@@ -11,6 +11,9 @@ import {LayoutComponent} from '@tt/layout';
 import {chatsRoutes} from '@tt/chats';
 import {provideState} from '@ngrx/store';
 import {provideEffects} from '@ngrx/effects';
+import {
+  FormsExperimentalComponent
+} from "../../../../libs/experemental/src/lib/experemental/forms-experemental/forms-experemental.component";
 
 export const routes: Routes = [
   {
@@ -20,6 +23,7 @@ export const routes: Routes = [
       { path: '', redirectTo: 'profile/me', pathMatch: 'full' },
       { path: 'profile/:id', component: ProfilePageComponent },
       { path: 'settings', component: SettingsPageComponent },
+      { path: 'experimental', component: FormsExperimentalComponent },
       {
         path: 'search',
         component: SearchPageComponent,

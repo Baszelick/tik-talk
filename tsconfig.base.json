@@ -23,7 +23,8 @@
       "@tt/shared": ["libs/shared/src/index.ts"],
       "@tt/chats": ["libs/chats/src/index.ts"],
       "@tt/interfaces/*": ["libs/interfaces/src/lib/*"],
-      "@tt/layout": ["libs/layout/src/index.ts"]
+      "@tt/layout": ["libs/layout/src/index.ts"],
+      "experemental": ["libs/experemental/src/index.ts"]
     },
     "baseUrl": ".",
     "rootDir": "."

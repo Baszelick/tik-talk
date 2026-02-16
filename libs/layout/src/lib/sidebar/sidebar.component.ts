@@ -46,6 +46,11 @@ export class SidebarComponent {
       icon: 'search',
       link: 'search',
     },
+    {
+      label: 'experimental',
+      icon:'experimental',
+      link: 'experimental',
+    }
   ];
 
   ngOnInit() {

@@ -1,0 +1,45 @@
+<form [formGroup]="shipForm">
+  <h4 class="mb20 h4">Системы регистрации космического судна в Галактическом Реестре</h4>
+
+  <label class="tt-control-label mb16">
+    Класс корабля
+    <select class="tt-input" formControlName="bortClass">
+      <option [value]="ShipClass.CARGO">Грузовой</option>
+      <option [value]="ShipClass.FIGHTER">Истребитель</option>
+      <option [value]="ShipClass.PASSENGER">Пассажирский</option>
+      <option [value]="ShipClass.RESEARCH">Иследовательский</option>
+    </select>
+  </label>
+
+  <label class="tt-control-label mb16">
+    Название корабля
+    <input
+      formControlName="bortName"
+      class="tt-input"
+      type="text"
+      placeholder="Введите название судна"
+    >
+  </label>
+
+  <label class="tt-control-label mb16">
+    Серийный номер
+    <input
+      formControlName="bortNumber"
+      class="tt-input"
+      type="text"
+      placeholder="Введите Серийный номер судна в формате XY-123-ZW"
+    >
+  </label>
+
+  <label class="tt-control-label mb16">
+    Дата постройки
+    <input
+      formControlName="bortDate"
+      class="tt-input"
+      type="date"
+      placeholder="Введите Дату постройки судна"
+    >
+  </label>
+
+
+</form>
