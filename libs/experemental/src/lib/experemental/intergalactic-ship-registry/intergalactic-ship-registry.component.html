@@ -1,4 +1,4 @@
-<form [formGroup]="shipForm">
+<form [formGroup]="shipForm" (ngSubmit)="onSubmit($event)">
   <h4 class="mb20 h4">Системы регистрации космического судна в Галактическом Реестре</h4>
 
   <label class="tt-control-label mb16">
@@ -19,6 +19,12 @@
       type="text"
       placeholder="Введите название судна"
     >
+
+    @if (shipForm.controls.bortName.touched && shipForm.controls.bortName.hasError('required')) {
+      <small>Это поле обязательно</small>
+    } @else if (shipForm.controls.bortName.invalid && shipForm.controls.bortName.touched) {
+      <small>В названии корабля должно быть больше 3х букв</small>
+    }
   </label>
 
   <label class="tt-control-label mb16">
@@ -26,9 +32,17 @@
     <input
       formControlName="bortNumber"
       class="tt-input"
-      type="text"
-      placeholder="Введите Серийный номер судна в формате XY-123-ZW"
+      mask="AA-000-AA"
+      [dropSpecialCharacters]="false"
+      placeholder="AA-000-AA"
+      [validation]="true"
     >
+
+    @if (shipForm.controls.bortNumber.touched && shipForm.controls.bortNumber.hasError('required')) {
+      <small>Это поле обязательно</small>
+    } @else if (shipForm.controls.bortNumber.invalid &&shipForm.controls.bortNumber.touched) {
+      <small>Номер должен быть формата AA-000-AA</small>
+    }
   </label>
 
   <label class="tt-control-label mb16">
@@ -39,7 +53,153 @@
       type="date"
       placeholder="Введите Дату постройки судна"
     >
+
+    @if (shipForm.controls.bortDate.touched && shipForm.controls.bortDate.hasError('required')) {
+      <small>Это поле обязательно</small>
+    } @else if (shipForm.controls.bortDate.invalid &&shipForm.controls.bortDate.touched) {
+      <small>Дата не может быть в будующем</small>
+    }
   </label>
+
+  <div style="display: flex; justify-content: space-between">
+    <h4 class="h6 mb16">Двигатель</h4>
+    <button type="button" class="btn" style="width: 50px" (click)="addEngine()">+</button>
+  </div>
+
+  @if (shipForm.controls.bortClass.value === ShipClass.CARGO) {
+    <label class="tt-control-label mb16">
+      <div formGroupName="typeSpecificData" class="mb16 type-bort">
+        <div class="type-bort-input">
+          Грузоподъемность (тонн)
+          <input
+            formControlName="maxWeight"
+            class="tt-input"
+            type="number"
+            placeholder="Грузоподъемность"
+          >
+        </div>
+        <div class="type-bort-input">
+          Класс опасности груза
+          <input
+            formControlName="hazardClass"
+            class="tt-input"
+            type="number"
+            placeholder="Класс опасности груза"
+          >
+        </div>
+      </div>
+    </label>
+  } @else if (shipForm.controls.bortClass.value === ShipClass.PASSENGER) {
+    <label class="tt-control-label mb16">
+      <div formGroupName="typeSpecificData" class="mb16 type-bort">
+        <div class="type-bort-input">
+          Количество мест
+          <input
+            formControlName="capacity"
+            class="tt-input"
+            type="number"
+            placeholder="Количество мест"
+          >
+        </div>
+        <div class="type-bort-input">
+          Наличие бортпроводников
+          <input
+            formControlName="hasSteward"
+            class="tt-input"
+            type="checkbox"
+          >
+        </div>
+      </div>
+    </label>
+  } @else if (shipForm.controls.bortClass.value === ShipClass.FIGHTER) {
+    <label class="tt-control-label mb16">
+      <div formGroupName="typeSpecificData" class="mb16 type-bort">
+        <div class="type-bort-input">
+          Кол-во турелей
+          <input
+            formControlName="weaponsCount"
+            class="tt-input"
+            type="number"
+            placeholder="Кол-во турелей"
+          >
+        </div>
+        <div class="slider-block">
+          <label>Мощность щитов
+
+          <input type="range"
+                 formControlName="shieldEnergy"
+                 min="0"
+                 max="100"
+                 step="1">
+
+          <input type="number"
+                 formControlName="shieldEnergy"
+                 min="0"
+                 max="100">
+          </label>
+        </div>
+      </div>
+    </label>
+  } @else if (shipForm.controls.bortClass.value === ShipClass.RESEARCH) {
+    <label class="tt-control-label mb16">
+      <div formGroupName="typeSpecificData" class="mb16 type-bort">
+        <div class="type-bort-input">
+          Тип лаборатории
+          <input
+            formControlName="labType"
+            class="tt-input"
+            type="text"
+            placeholder="Тип лаборатории"
+          >
+        </div>
+        <div class="type-bort-input">
+          Управление ИИ
+          <input
+            formControlName="isAIControlled"
+            class="tt-input"
+            type="checkbox"
+          >
+        </div>
+      </div>
+    </label>
+  }
+
+  @for (engine of shipForm.controls.specifications.controls; track engine; let i = $index) {
+    <div class="engine-controls" [formGroup]="engine">
+      <label class="tt-control-label">
+        Мощьность
+        <input
+          formControlName="power"
+          class="tt-input"
+          type="number"
+          placeholder="Мощьность"
+        />
+      </label>
+
+      <label class="tt-control-label">
+        Тип топлива
+        <input
+          formControlName="fuelType"
+          class="tt-input"
+          type="text"
+          placeholder="Тип топлива"
+        />
+      </label>
+
+      <button
+        type="button"
+        (click)="deleteEngine(i)"
+        class="btn"
+      >
+        Удалить двигатель
+      </button>
+    </div>
+  }
+
+  <button
+    type="submit"
+    class="btn btn-shadow mt20"
+  >Зарегистрировать корабль</button>
 
 
 </form>

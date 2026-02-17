@@ -1,4 +1,10 @@
-import { Component, forwardRef, inject, signal } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  forwardRef,
+  inject,
+  signal,
+} from '@angular/core';
 import {
   ControlValueAccessor,
   FormControl,
@@ -6,9 +12,10 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { TtInputComponent } from '../tt-input/tt-input.component';
-import { DadataService } from '../../data/indrex';
+import { DadataService } from '../../data';
 import { debounceTime, switchMap, tap } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'tt-address-input',
@@ -24,7 +31,10 @@ import { AsyncPipe } from '@angular/common';
   ],
 })
 export class AddressInputComponent implements ControlValueAccessor {
+
   innerSearchControl = new FormControl();
+
+  destroyRef = inject(DestroyRef)
   #dadataService = inject(DadataService);
 
   isDropdownOpened = signal<boolean>(true)
@@ -68,5 +78,16 @@ export class AddressInputComponent implements ControlValueAccessor {
     })
     this.onChange(city);
   }
+
+  ngOnInit() {
+    this.innerSearchControl.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => {
+        this.onChange(value);
+        this.onTouched()
+      })
+  }
+
+
 }
 

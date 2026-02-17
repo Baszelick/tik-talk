@@ -24,7 +24,8 @@
       "@tt/chats": ["libs/chats/src/index.ts"],
       "@tt/interfaces/*": ["libs/interfaces/src/lib/*"],
       "@tt/layout": ["libs/layout/src/index.ts"],
-      "experemental": ["libs/experemental/src/index.ts"]
+      "@tt/experemental": ["libs/experemental/src/index.ts"],
+      "@tt/data-access": ["libs/data-access/src/index.ts"]
     },
     "baseUrl": ".",
     "rootDir": "."
